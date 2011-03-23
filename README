@@ -1,1 +1,2 @@
-empty file.
+contacts is a demo app for web worker, web sockets, node.js, mongodb and other html5 technologies (app caching, indexeddb, drag/drop, etc...)
+it aims to be be a contact managment web application which is vCard compliant.
