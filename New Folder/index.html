@@ -1,0 +1,78 @@
+<html>
+    <head>
+		<link rel="stylesheet" type="text/css" href="contacts.css">
+	</head>
+<body>
+
+<script>
+var worker = new Worker("comm.js");
+ 
+worker.onmessage = function (event) {
+		var contact = document.getElementById('contact');
+		var output = document.getElementById('output');
+		var contactList = document.getElementById('contactList');
+		console.log("worker: ");
+		console.dir(event);
+		try {
+
+			var eventObj = JSON.parse(event.data);
+			console.dir(eventObj);
+			if (eventObj.type === "contact") {
+				
+				document.createDocumentFragment();
+				var div = document.createElement('div');
+				div.className = 'container';
+				div.id = 'contact_' + eventObj.data[0]._id;
+				
+				var firstName = document.createElement('div');
+				firstName.className = 'firstName';
+				firstName.textContent = eventObj.data[0].firstName;
+				div.appendChild(firstName);
+				
+				var lastName = document.createElement('div');
+				lastName.className = 'lastName';
+				lastName.textContent = eventObj.data[0].lastName;
+				div.appendChild(lastName);
+				
+				contact.appendChild(div);
+			} else if (eventObj.type === "count") {
+				output.textContent = JSON.stringify(eventObj.data);
+			} else if (eventObj.type === "contactList") {
+				contactList.textContent = JSON.stringify(eventObj.data);
+			}
+		} catch (e) {
+			contact.textContent = e;
+		}
+//		output.textContent = event.data.type;
+
+	};
+ 
+
+var setOutput = function (msg) {
+	var output = document.getElementById('textoutput');
+	output.textContent = msg;
+};
+
+var send = function () {
+	console.log("socket send... ");
+	var val = {
+		firstName: document.getElementById("firstName").value,
+		lastName: document.getElementById("lastName").value
+	};
+	
+	worker.postMessage(JSON.stringify(val));
+};
+
+</script>
+<div id="main">Hello contacts</div>
+
+<div class="label">First name</div><input class="input" type="text" id="firstName"/><div class="clear"/>
+<div class="label">Last name</div><input class="input" type="text" id="lastName"/><div class="clear"/>
+
+<button onclick="send();">send</button>
+
+<div id="output">event type</div>
+<div id="contact">test</div>
+<div id="contactList"></div>
+</body>
+</html>
