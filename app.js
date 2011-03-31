@@ -1,7 +1,8 @@
 var sys = require("sys"), 
     express = require("express"),
 	ws = require("websocket-server"),
-	mongo = require('mongodb');
+	mongo = require('mongodb'),
+    amqp = require('amqp');
 
 var host = process.env.MONGO_HOST;
 var port = process.env.MONGO_PORT;
