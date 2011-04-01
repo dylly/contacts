@@ -4,6 +4,8 @@ var sys = require("sys"),
 	mongo = require('mongodb'),
     amqp = require('amqp');
 
+// test 
+
 var host = process.env.MONGO_HOST;
 var port = process.env.MONGO_PORT;
 var username = process.env.MONGO_USERNAME;
